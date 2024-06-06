@@ -79,7 +79,7 @@ export default function Home() {
           ))}
         </ul>
         <div className="mt-4 flex justify-between items-center text-sm text-gray-400">
-          <span> 'n' items left</span>  {/* show how many uncompleted items left */}
+          <span> n items left</span>  {/* show how many uncompleted items left */}
           <div>
             <button onClick={() => alert("Show all")} className={`mr-2 ${filter === 'all' ? 'text-white' : ''}`}>All</button>
             <button onClick={() => alert("Show active")} className={`mr-2 ${filter === 'active' ? 'text-white' : ''}`}>Active</button>
