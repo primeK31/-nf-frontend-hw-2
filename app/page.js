@@ -1,19 +1,25 @@
 'use client'
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const task = {id: 1, text: "Todo Test", completed: false}
 
 export default function Home() {
-  //const tasks = []; // rewrite using states
-  const filter = 'all'; // rewrite using states
-  const [tasks, setTasks] = useState([]);
+
+  const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem('tasks');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [newTask, setNewTask] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleAddTask = () => {
     if (newTask.trim() !== '') {
       setTasks([...tasks, { text: newTask, completed: false }]);
-      setNewTask('');
+      setNewTask("");
     }
   };
 
@@ -32,7 +38,7 @@ export default function Home() {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-4xl font-bold">TODO</h1>
+        <h1 className="text-4xl font-bold">TODO KANBAN</h1>
         
       </div>
       <div className="mb-4 flex items-center">
@@ -80,11 +86,6 @@ export default function Home() {
         </ul>
         <div className="mt-4 flex justify-between items-center text-sm text-gray-400">
           <span> n items left</span>  {/* show how many uncompleted items left */}
-          <div>
-            <button onClick={() => alert("Show all")} className={`mr-2 ${filter === 'all' ? 'text-white' : ''}`}>All</button>
-            <button onClick={() => alert("Show active")} className={`mr-2 ${filter === 'active' ? 'text-white' : ''}`}>Active</button>
-            <button onClick={() => alert("Show completed")} className={`${filter === 'completed' ? 'text-white' : ''}`}>Completed</button>
-          </div>
           <button
             onClick={() => alert("Clear completed tasks")}
             className="text-gray-400 hover:text-white"
